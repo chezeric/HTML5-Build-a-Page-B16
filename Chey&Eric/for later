@@ -1,0 +1,29 @@
+
+
+
+<div class="divHeadline">localStorage Demo</div>
+    <p>This is a little text editor that demos the HTML 5 <a href="http://threads2.scripting.com/2013/march/html5LocalstorageDemo">localStorage</a> feature<span id="idCaveat"></span>.</p>
+    <textarea id="idTextarea"></textarea>
+
+
+<script>
+      function savetext () {
+        var s = document.getElementById ("idTextarea").value;
+        if (s != localStorage.savedtext) {
+          localStorage.savedtext = s;
+          }
+        document.getElementById ("idCharCount").innerHTML = s.length;
+        }
+      function startup () {
+        if (typeof (Storage) == undefined) {
+          document.getElementById ("idCaveat").innerHTML = ", which unfortunately is not available in this browser";
+          }
+        else {
+          if (localStorage.savedtext == undefined) {
+            localStorage.savedtext = "";
+            }
+          document.getElementById ("idTextarea").value = localStorage.savedtext;
+          self.setInterval (function () {savetext ()}, 1000); //call every second
+          }
+        }
+      </script>

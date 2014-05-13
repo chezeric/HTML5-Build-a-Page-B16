@@ -7,6 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Alfa Romeo Blog</title>
+        <script src="http://html5demos.com/js/h5utils.js"></script>
     </head>
     <body>
         <header>
@@ -41,6 +42,67 @@
                     <li><a href="#">February</a></li>
                     <li><a href="#">March</a></li>
                 </ul>
+                <article>
+  <section>
+    <p>Values are stored on <code>keyup</code></p>
+    <p>Content loaded from previous sessions:</p>
+    <ul id="previous"></ul>
+  </section>
+  <section>
+    <div>
+      <label for="session">Look at your session:</label>
+      <input type="text" name="session" value="" id="session" />
+    </div>
+    <div>
+      <label for="local">Checkout your local storage:</label>
+      <input type="text" name="local" value="" id="local" />
+    </div>
+    <input type="button" id="clear" value="Clear storage" />
+  </section>
+</article>
+<script>
+
+function getStorage(type) {
+  var storage = window[type + 'Storage'],
+    delta = 0,
+    li = document.createElement('li');
+
+  if (!window[type + 'Storage']) return;
+
+  if (storage.getItem('value')) {
+    delta = ((new Date()).getTime() - (new Date()).setTime(storage.getItem('timestamp'))) / 1000;
+
+    li.innerHTML = type + 'Storage: ' + storage.getItem('value') + ' (last updated: ' + delta + 's ago)';
+  } else {
+    li.innerHTML = type + 'Storage is empty';
+  }
+
+  document.querySelector('#previous').appendChild(li);
+}
+
+getStorage('session');
+getStorage('local');
+
+addEvent(document.querySelector('#session'), 'keyup', function () {
+  sessionStorage.setItem('value', this.value);
+  sessionStorage.setItem('timestamp', (new Date()).getTime());
+});
+
+addEvent(document.querySelector('#local'), 'keyup', function () {
+  localStorage.setItem('value', this.value);
+  localStorage.setItem('timestamp', (new Date()).getTime());
+});
+
+addEvent(document.querySelector('#clear'), 'click', function () {
+  sessionStorage.clear();
+  localStorage.clear();
+
+  document.querySelector('#previous').innerHTML = '';
+  getStorage('local');
+  getStorage('session');
+});
+
+</script>
             </aside>
             <footer>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante quam, porttitor ut condimentum sed, varius non elit.<p>
