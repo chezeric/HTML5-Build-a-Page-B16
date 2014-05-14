@@ -1,45 +1,112 @@
 <!DOCTYPE html>
-
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html lang="en-us" class="no-js" manifest="alfar.appcache">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Alfa Romeo Blog</title>
+        <script src="http://html5demos.com/js/h5utils.js"></script>
     </head>
-    <header>
-        <h1>Lorem Ipsum</h1>
-    </header>
-    <nav>
-        <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Archives</li>
-            <li>Contact</li>
-        </ul>
-    </nav>
-
     <body>
-        <main>
-            <article>
-                <section>
-                    <h2>Alfa Romeo 8c</h2>
-                    <p>Vivamus posuere id nisl eu molestie. Fusce ullamcorper erat id elit ultricies mattis. Suspendisse potenti. Mauris aliquet mauris purus, non porta urna iaculis in. Integer nibh odio, eleifend vel lectus et, porttitor fermentum ipsum. Sed semper dapibus justo, nec eleifend urna tincidunt in. Donec cursus neque sit amet felis imperdiet elementum.</p>
-                    <img src="alfa-romeo.jpg" alt="Alfa Romeo 8c">
-                </section>
-                <section>
-                    <h2>Alfa Giulia TZ</h2>
-                    <p>Aliquam egestas eu sapien a molestie. Proin lectus orci, malesuada vitae urna eu, congue egestas lacus. Sed convallis eros sit amet dolor blandit semper. Donec quis diam tristique, tincidunt justo ac, convallis quam. Sed scelerisque congue molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer sed purus vel eros dictum venenatis vel a erat.<p>
-                    <img src="alfa-giuliaTZ.jpg" alt="Alfa Guilia TZ">
-                </section>
-            </article>
-        </main>
-        <aside>
+        <header>
+            <h1>Lorem Ipsum</h1>
+        </header>
+        <nav>
             <ul>
-                <li><a href="#">January</a></li>
-                <li><a href="#">February</a></li>
-                <li><a href="#">March</a></li>
-        </aside>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Archive</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+
+            <main>
+                <article>
+                    <section>
+                        <h2>Alfa Romeo 8c</h2>
+                        <p>Vivamus posuere id nisl eu molestie. Fusce ullamcorper erat id elit ultricies mattis. Suspendisse potenti. Mauris aliquet mauris purus, non porta urna iaculis in. Integer nibh odio, eleifend vel lectus et, porttitor fermentum ipsum. Sed semper dapibus justo, nec eleifend urna tincidunt in. Donec cursus neque sit amet felis imperdiet elementum.</p>
+                        <img src="alfa-romeo.jpg" alt="Alfa Romeo 8c">
+                    </section>
+                    <section>
+                        <h2>Alfa Giulia TZ</h2>
+                        <p>Aliquam egestas eu sapien a molestie. Proin lectus orci, malesuada vitae urna eu, congue egestas lacus. Sed convallis eros sit amet dolor blandit semper. Donec quis diam tristique, tincidunt justo ac, convallis quam. Sed scelerisque congue molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer sed purus vel eros dictum venenatis vel a erat.<p>
+                        <img src="alfa-giuliaTZ.jpg" alt="Alfa Guilia TZ">
+                    </section>
+                </article>
+            </main>
+            <aside>
+                <ul>
+                    <li><a href="#">January</a></li>
+                    <li><a href="#">February</a></li>
+                    <li><a href="#">March</a></li>
+                </ul>
+                <article>
+  <section>
+    <p>Values are stored on <code>keyup</code></p>
+    <p>Content loaded from previous sessions:</p>
+    <ul id="previous"></ul>
+  </section>
+  <section>
+    <div>
+      <label for="session">Look at your session:</label>
+      <input type="text" name="session" value="" id="session" />
+    </div>
+    <div>
+      <label for="local">Checkout your local storage:</label>
+      <input type="text" name="local" value="" id="local" />
+    </div>
+    <input type="button" id="clear" value="Clear storage" />
+  </section>
+</article>
+<script>
+
+function getStorage(type) {
+  var storage = window[type + 'Storage'],
+    delta = 0,
+    li = document.createElement('li');
+
+  if (!window[type + 'Storage']) return;
+
+  if (storage.getItem('value')) {
+    delta = ((new Date()).getTime() - (new Date()).setTime(storage.getItem('timestamp'))) / 1000;
+
+    li.innerHTML = type + 'Storage: ' + storage.getItem('value') + ' (last updated: ' + delta + 's ago)';
+  } else {
+    li.innerHTML = type + 'Storage is empty';
+  }
+
+  document.querySelector('#previous').appendChild(li);
+}
+
+getStorage('session');
+getStorage('local');
+
+addEvent(document.querySelector('#session'), 'keyup', function () {
+  sessionStorage.setItem('value', this.value);
+  sessionStorage.setItem('timestamp', (new Date()).getTime());
+});
+
+addEvent(document.querySelector('#local'), 'keyup', function () {
+  localStorage.setItem('value', this.value);
+  localStorage.setItem('timestamp', (new Date()).getTime());
+});
+
+addEvent(document.querySelector('#clear'), 'click', function () {
+  sessionStorage.clear();
+  localStorage.clear();
+
+  document.querySelector('#previous').innerHTML = '';
+  getStorage('local');
+  getStorage('session');
+});
+
+</script>
+            </aside>
+            <footer>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante quam, porttitor ut condimentum sed, varius non elit.<p>
+            </footer>
     </body>
-    <footer>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante quam, porttitor ut condimentum sed, varius non elit. <p>
-    </footer>
+
 </html>
